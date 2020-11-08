@@ -42,11 +42,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(view);
         viewModel = new ViewModelProvider(this).get(JokesViewModel.class);
 
-        RecyclerView recyclerJokes = findViewById(R.id.recyclerJokes);
-        recyclerJokes.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-        adapter = new JokesAdapter(MainActivity.this, jokeList, joke -> {
+        binding.btnSend.setTypeface(sans);
+        binding.editTextCell.setTypeface(sans);
+        binding.textFieldCell.setTypeface(sans);
+        binding.editTextCell.requestFocus();
 
 
+        binding.lProgressBar.getRoot().setVisibility(View.VISIBLE);
         observeData();
         viewModel.getJokes();
 
@@ -55,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void observeData() {
-        viewModel.getJokesList().observe(this, pokemons -> adapter.updateList(pokemons));
-    }
+        viewModel.getJokesList().observe(this, pokemons ->
+                {
+                adapter.updateList(pokemons);
+                    binding.lProgressBar.getRoot().setVisibility(View.GONE);
+                });}
 }
